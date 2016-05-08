@@ -3,29 +3,35 @@
 
 	describe('Ancillary Methods', function(){
 
-		describe('makeCard', function() {
+		describe('Card', function() {
 
 			it('should generate a card with four properties', function(){
-				var result = makeCard();
-				expect(result).to.equal(8);
+				var result = new gameLogic.Card;
+				expect(result.color).to.be.ok;
+				expect(result.shape).to.be.ok;
+				expect(result.shading).to.be.ok;
+				expect(result.number).to.be.ok;
 			});
 		});
 
 		describe('makeDeck', function() {
 
 			it('should create a deck with 52 cards', function(){
-				var result = makeDeck(board);
-				expect(result).to.equal(8);
+				var result = gameLogic.makeDeck();
+				expect(result.length).to.equal(52);
 			});
 		});
 
 		describe('makeBoard', function() {
 
 			it('should create a 12-card board and remove cards from the deck', function(){
-				var result=playSet(3, 5);
-				expect(result).to.equal(8);
+				var testDeck = gameLogic.makeDeck();
+				var result = gameLogic.makeBoard(testDeck);
+				expect(testDeck.length).to.equal(40);
+				expect(result.length).to.equal(12);
 			});
 		});
+	});
 
 
 	describe('Requirements', function(){
