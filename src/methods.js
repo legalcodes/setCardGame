@@ -46,14 +46,63 @@ gameLogic.makeBoard = function(deck){
 /////////////////////////
 
 gameLogic.findSet = function(card1, card2, card3){
-	// flag
+	var cards = [card1, card2, card3];
+
+	var colors = _.pluck(cards, 'color');
+	var shapes = _.pluck(cards, 'shape');
+	var shading = _.pluck(cards, 'shading');
+	var numbers = _.pluck(cards, 'number');
+
+  var props = [colors, shapes, shading, numbers];
+
 	var isSet = true;
-	// for each property
-		// are values the same on all cards?
-	    // if so, move to next property
-			// else are values different on all cards?
+	// for each prop
+	_.each(props, function(propArr){
+		// check to see if all values match
+		var areSame = propArr[0] === propArr[1] && propArr[1] === propArr[2];
+		// if not, check to see if ANY values match
+		if (!areSame){
+			var noneMatch = propArr[0] !== propArr[1] && propArr[1] !== propArr[2];
+			if (!noneMatch){
+				isSet = false
+			}
+		}
+	});
+	return isSet;
+};
 
-	// if values were neither all different nor all the same, no set
-	// else, set
+// should take a board of cards and either find a set or determine if there are no sets on the table.
 
+gameLogic.checkBoard = function(board, setLength){
+	// holds all 3 card combinations for passed in board
+	var combos = [];
+	// if user provides no value, setLength defaults to three
+	var setLength = (typeof setLength === 'undefined') ? 3 : setLength;
+	// holds values for a single 3-card-combo
+	var combo = [];
+
+	// recursive function to find all combos
+	var findAllCombos = function(){
+		// check if we have recursed far enough
+		if(combo.length === setLength){
+			// add this combo to the combos list
+			console.log('combo: ', combo);
+			console.log(combo[0], combo[1], combo[2]);
+			combos.push(combo.slice());
+			return;
+		}
+		// visit children
+		for (var i = 0; i < board.length; i++){
+			// prep work
+			combo.push(board[i]);
+			// console.log('pushed: ', combo);
+			// recurse down
+			findAllCombos();
+			// cleanup
+			// console.log('popped: ', combo);
+			combo.pop();
+		}
+	};
+	findAllCombos();
+  console.log('Combos : ', combos);
 };
