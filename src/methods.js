@@ -11,10 +11,12 @@ gameLogic.properties = {
 	numbers: [1,2,3]
 };
 
+// helper function that returns random element from passed in array
 gameLogic.getRandomElement = function(arr){
 	return arr[Math.floor(Math.random() * arr.length)]
 };
 
+// Each card is assigned random properties when created
 gameLogic.Card = function(){
 	this.color = gameLogic.getRandomElement(gameLogic.properties.colors);
 	this.shape = gameLogic.getRandomElement(gameLogic.properties.shapes);
@@ -22,13 +24,16 @@ gameLogic.Card = function(){
 	this.number = gameLogic.getRandomElement(gameLogic.properties.numbers);
 };
 
+// change the size of the deck here
 gameLogic.deckSize = 52;
 
-// generate deck
+// generate deck and add numbered id for each card
 gameLogic.makeDeck = function(){
   var cards = [];
 	for (var i = 0; i < gameLogic.deckSize; i++){
-		cards.push(new gameLogic.Card);
+		var newCard = new gameLogic.Card;
+		newCard.id = i;
+		cards.push(newCard);
 	}
 	return cards;
 };
@@ -54,16 +59,16 @@ gameLogic.findSet = function(card1, card2, card3){
 	var numbers = _.pluck(cards, 'number');
 
   var props = [colors, shapes, shading, numbers];
-
+	// findSet will return true unless both of the following tests fail:
 	var isSet = true;
 	// for each prop
 	_.each(props, function(propArr){
 		// check to see if all values match
 		var areSame = propArr[0] === propArr[1] && propArr[1] === propArr[2];
-		// if not, check to see if ANY values match
+		// if not, check to see if all values are different
 		if (!areSame){
-			var noneMatch = propArr[0] !== propArr[1] && propArr[1] !== propArr[2];
-			if (!noneMatch){
+			var allDifferent = propArr[0] !== propArr[1] && propArr[1] !== propArr[2];
+			if (!allDifferent){
 				isSet = false
 			}
 		}
@@ -74,35 +79,46 @@ gameLogic.findSet = function(card1, card2, card3){
 // should take a board of cards and either find a set or determine if there are no sets on the table.
 
 gameLogic.checkBoard = function(board, setLength){
-	// holds all 3 card combinations for passed in board
-	var combos = [];
+	var sets = [];
 	// if user provides no value, setLength defaults to three
 	var setLength = (typeof setLength === 'undefined') ? 3 : setLength;
-	// holds values for a single 3-card-combo
+	// container for a single 3-card-combination to be tested for set
 	var combo = [];
 
 	// recursive function to find all combos
 	var findAllCombos = function(){
-		// check if we have recursed far enough
+
+		// recursed deep enough?
 		if(combo.length === setLength){
-			// add this combo to the combos list
-			console.log('combo: ', combo);
-			console.log(combo[0], combo[1], combo[2]);
-			combos.push(combo.slice());
+
+			// if so, is combo a set?
+			if (gameLogic.findSet(combo[0], combo[1], combo[2])){
+
+				// if so, store set
+				sets.push(_.pluck(combo, 'id'));
+			}
 			return;
 		}
+
 		// visit children
 		for (var i = 0; i < board.length; i++){
 			// prep work
+			// pull card into combo and remove from board
+			// console.log('Before: ', board.length);
+
 			combo.push(board[i]);
-			// console.log('pushed: ', combo);
+			var selected = board.splice(i, 1)[0];
+			// console.log('Removed card ',  selected, ' Board length: ', board.length);
+
 			// recurse down
 			findAllCombos();
 			// cleanup
-			// console.log('popped: ', combo);
 			combo.pop();
+			// replace card into board 
+			board.splice(i, 0, selected);
+			// console.log('Replaced card ' + selected, 'Board length: ', board.length);
 		}
 	};
 	findAllCombos();
-  console.log('Combos : ', combos);
+	console.log(sets.length);
 };

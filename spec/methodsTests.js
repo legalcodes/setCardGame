@@ -16,7 +16,7 @@
 
 		describe('makeDeck', function() {
 
-			it('should create a deck whose size matches gameLogic.deckSize', function(){
+			it('should create a deck of size equal to gameLogic.deckSize', function(){
 				var result = gameLogic.makeDeck();
 				expect(result.length).to.equal(gameLogic.deckSize);
 			});
@@ -37,72 +37,84 @@
 	describe('Requirements', function(){
 
 		var card1 = {
+			id: 1,
 			color: 'red',
 			shape: 'solid',
 			shading: 'squiggle',
 			number: 2
 		};
 		var card2 = {
+			id: 2,
 			color: 'green',
 			shape: 'solid',
 			shading: 'diamond',
 			number: 1
 		};
 		var card3 = {
+			id: 3,
 			color: 'purple',
 			shape: 'solid',
 			shading: 'oval',
 			number: 3
 		};
 		var card4 = {
-			color: 'red',
+			id: 4,
+			color: 'green',
 			shape: 'solid',
 			shading: 'squiggle',
 			number: 2
 		};
 		var card5 = {
-			color: 'green',
-			shape: 'solid',
+			id: 5,
+			color: 'purple',
+			shape: 'empty',
 			shading: 'squiggle',
 			number: 1
 		};
 		var card6 = {
+			id: 6,
 			color: 'purple',
 			shape: 'solid',
 			shading: 'oval',
 			number: 3
 		};
 		var card7 = {
-			color: 'red',
-			shape: 'solid',
+			id: 7,
+			color: 'purple',
+			shape: 'striped',
 			shading: 'squiggle',
 			number: 2
 		};
 		var card8 = {
+			id: 8,
 			color: 'green',
 			shape: 'solid',
 			shading: 'diamond',
 			number: 1
 		};
 		var card9 = {
+			id: 9,
 			color: 'purple',
 			shape: 'solid',
 			shading: 'oval',
 			number: 3
 		};
 		var card10 = {
-			color: 'red',
+			id: 10,
+			color: 'green',
 			shape: 'solid',
-			shading: 'squiggle',
+			shading: 'oval',
 			number: 2
 		};
 		var card11 = {
+			id: 11,
 			color: 'green',
 			shape: 'solid',
 			shading: 'squiggle',
 			number: 1
 		};
 		var card12 = {
+			id: 12,
 			color: 'purple',
 			shape: 'solid',
 			shading: 'oval',
@@ -165,7 +177,6 @@
 		describe('checkBoard', function() {
 
 			it('should take a board of cards and either find a set or determine if there are no sets on the table.', function(){
-				var result = gameLogic.checkBoard(testBoard);
 			});
 		});
 
@@ -173,10 +184,8 @@
 
 			it('should play an entire game of Set, from beginning to end, and return a list of each valid sets you removed from the board.', function(){
 				var result=playSet(3, 5);
-				expect(result).to.equal(8);
 			});
 		});
-
 
 	});
 })();
