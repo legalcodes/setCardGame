@@ -1,5 +1,9 @@
 window.gameLogic = {};
 
+//////////////////////////
+///// ANCILLARY METHODS///
+//////////////////////////
+
 gameLogic.properties = {
 	colors: ['red', 'green', 'purple'],
 	shapes: ['diamond', 'squiggle', 'oval'],
@@ -37,6 +41,19 @@ gameLogic.makeBoard = function(deck){
 	return board;
 };
 
-gameLogic.findSet = function(num1, num2){
-	return num1 + num2;
+/////////////////////////
+////REQUIRED METHODS/////
+/////////////////////////
+
+gameLogic.findSet = function(card1, card2, card3){
+	// flag
+	var isSet = true;
+	// for each property
+		// are values the same on all cards?
+	    // if so, move to next property
+			// else are values different on all cards?
+
+	// if values were neither all different nor all the same, no set
+	// else, set
+
 };

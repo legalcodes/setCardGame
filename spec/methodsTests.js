@@ -16,9 +16,9 @@
 
 		describe('makeDeck', function() {
 
-			it('should create a deck with 52 cards', function(){
+			it('should create a deck whose size matches gameLogic.deckSize', function(){
 				var result = gameLogic.makeDeck();
-				expect(result.length).to.equal(52);
+				expect(result.length).to.equal(gameLogic.deckSize);
 			});
 		});
 
@@ -39,8 +39,47 @@
 		describe('findSet', function() {
 
 			it('should take three cards, and determine whether the three cards make a set.', function(){
-				var result = findSet(3, 5);
-				expect(result).to.equal(8);
+				var card1 = {
+					color: 'red',
+					shape: 'solid',
+					shading: 'squiggle',
+					number: 2
+				};
+				var card2 = {
+					color: 'green',
+					shape: 'solid',
+					shading: 'diamond',
+					number: 1
+				};
+				var card3 = {
+					color: 'purple',
+					shape: 'solid',
+					shading: 'oval',
+					number: 3
+				};
+				var card4 = {
+					color: 'red',
+					shape: 'solid',
+					shading: 'squiggle',
+					number: 2
+				};
+				var card5 = {
+					color: 'green',
+					shape: 'solid',
+					shading: 'diamond',
+					number: 1
+				};
+				var card6 = {
+					color: 'purple',
+					shape: 'solid',
+					shading: 'oval',
+					number: 3
+				};
+
+				var result1 = gameLogic.findSet(card1, card2, card3);
+				var result2 = gameLogic.findSet(card4, card5, card6);
+				expect(result1).to.equal(true);
+				expect(result2).to.equal(false);
 			});
 		});
 
