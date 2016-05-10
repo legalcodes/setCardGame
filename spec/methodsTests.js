@@ -149,7 +149,7 @@
 					number: 3
 				};
 				var card4 = {
-					color: 'red',
+					color: 'green',
 					shape: 'solid',
 					shading: 'squiggle',
 					number: 2
@@ -169,8 +169,13 @@
 
 				var result1 = gameLogic.findSet(card1, card2, card3);
 				var result2 = gameLogic.findSet(card4, card5, card6);
+				var result3 = gameLogic.findSet(card1, card3, card4);
+				console.log(result1);
+				console.log(result2);
+				console.log(result3);
 				expect(result1).to.equal(true);
 				expect(result2).to.equal(false);
+				expect(result3).to.equal(false);
 			});
 		});
 
@@ -178,6 +183,7 @@
 
 			it('should take a board of cards and either find a set or determine if there are no sets on the table.', function(){
 			});
+// 			var result = gameLogic.checkBoard(testBoard);
 		});
 
 		describe('playSet', function() {
