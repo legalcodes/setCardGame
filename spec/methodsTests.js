@@ -31,6 +31,23 @@
 				expect(result.length).to.equal(12);
 			});
 		});
+		describe('Game', function() {
+			it('should create a new game with a deck and a board', function(){
+				var testGame = new gameLogic.Game;
+
+				it ('should have a board of 12 cards', function(){
+					var testingBoard = testGame.gameBoard;
+					expect(testingBoard.length).to.equal(12);
+				})
+
+				it ('should have a deck with 40 cards remaining', function(){
+					var testingDeck = testGame.gameDeck;
+					expect(testingDeck.length).to.equal(40);
+				})
+
+			});
+		});
+
 	});
 
 
@@ -170,9 +187,6 @@
 				var result1 = gameLogic.findSet(card1, card2, card3);
 				var result2 = gameLogic.findSet(card4, card5, card6);
 				var result3 = gameLogic.findSet(card1, card3, card4);
-				console.log(result1);
-				console.log(result2);
-				console.log(result3);
 				expect(result1).to.equal(true);
 				expect(result2).to.equal(false);
 				expect(result3).to.equal(false);
@@ -183,7 +197,7 @@
 
 			it('should take a board of cards and either find a set or determine if there are no sets on the table.', function(){
 			});
-// 			var result = gameLogic.checkBoard(testBoard);
+ 			var result = gameLogic.checkBoard(testBoard);
 		});
 
 		describe('playSet', function() {

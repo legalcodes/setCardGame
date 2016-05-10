@@ -46,6 +46,14 @@ gameLogic.makeBoard = function(deck){
 	return board;
 };
 
+gameLogic.Game = function(){
+	this.turnCount = 0;
+	this.gameDeck = gameLogic.makeDeck();
+	this.gameBoard = gameLogic.makeBoard(this.gameDeck);
+	this.gameSets = [];
+};
+
+
 /////////////////////////
 ////REQUIRED METHODS/////
 /////////////////////////
@@ -72,27 +80,8 @@ gameLogic.findSet = function(card1, card2, card3){
 				isSet = false;
 			}
 		}
-		// return whether combo is a set
 	});
-
-
-
-/*
-	// for each prop
-	_.each(props, function(propArr){
-		// check to see if all values match
-		var areSame = propArr[0] === propArr[1] && propArr[1] === propArr[2];
-		// if not, check to see if all values are different
-		if (!areSame){
-			var allDifferent = propArr[0] !== propArr[1] && propArr[1] !== propArr[2];
-			if (!allDifferent){
-				isSet = false
-			}
-		}
-	});
-	return isSet;
- */
-
+	// return whether combo is a set
 	return isSet;
 };
 
@@ -135,10 +124,8 @@ gameLogic.checkBoard = function(board, setLength){
 		for (var i = 0; i < board.length; i++){
 			// prep work
 			// pull card into combo and remove from board
-			// console.log('Before: ', board.length);
 			combo.push(board[i]);
 			var selected = board.splice(i, 1)[0];
-			// console.log('Removed card ',  selected, ' Board length: ', board.length);
 			// recurse down
 			findAllCombos();
 			// cleanup
