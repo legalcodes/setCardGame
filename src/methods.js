@@ -53,6 +53,12 @@ gameLogic.Game = function(){
 	this.gameSets = [];
 };
 
+gameLogic.Game.prototype.deal = function(){
+	 // remove 3 cards from game deck
+		var new3 = this.gameDeck.splice(0, 3);
+	 // add those 3 cards to game board
+		this.gameBoard.splice(this.gameBoard.length, 0, new3[0], new3[1], new3[2]);
+};
 
 /////////////////////////
 ////REQUIRED METHODS/////
@@ -136,11 +142,12 @@ gameLogic.checkBoard = function(board, setLength){
 		}
 	};
 	findAllCombos();
+	return sets;
 
 /*
  	_.each(sets, function(set){
 		console.log(set[0], set[1], set[2]); 
-	})
+	});
 */
 
 // 	console.log(sets);
