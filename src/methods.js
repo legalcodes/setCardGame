@@ -1,4 +1,4 @@
-window.gameLogic = {};
+gameLogic = {};
 
 //////////////////////////
 ///// ANCILLARY METHODS///
@@ -13,7 +13,7 @@ gameLogic.properties = {
 
 // helper function that returns random element from passed in array
 gameLogic.getRandomElement = function(arr){
-	return arr[Math.floor(Math.random() * arr.length)]
+		return arr[Math.floor(Math.random() * arr.length)];
 };
 
 // Each card is assigned random properties when created
@@ -143,12 +143,21 @@ gameLogic.checkBoard = function(board, setLength){
 	};
 	findAllCombos();
 	return sets;
-
 /*
  	_.each(sets, function(set){
 		console.log(set[0], set[1], set[2]); 
 	});
 */
+};
 
-// 	console.log(sets);
+gameLogic.playGame = function(){
+		// create new Game
+
+		//is Game over?
+		//if not, are there sets?
+			//findSets
+		  //checkGameBoard
+		//if not, are there cards left in the deck?
+		  //deal
+		//if not, return gameSets
 };
