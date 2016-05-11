@@ -31,21 +31,38 @@
 				expect(result.length).to.equal(12);
 			});
 		});
+
 		describe('Game', function() {
-			it('should create a new game with a deck and a board', function(){
 				var testGame = new gameLogic.Game;
 
 				it ('should have a board of 12 cards', function(){
-					var testingBoard = testGame.gameBoard;
-					expect(testingBoard.length).to.equal(12);
-				})
+						expect(testGame.gameBoard.length).to.equal(12);
+				});
 
 				it ('should have a deck with 40 cards remaining', function(){
-					var testingDeck = testGame.gameDeck;
-					expect(testingDeck.length).to.equal(40);
-				})
+						var testingDeck = testGame.gameDeck;
+						expect(testingDeck.length).to.equal(40);
+				});
+		});
 
+		describe('Deal', function() {
+			var testGame = new gameLogic.Game;
+			var cards = [testGame.gameDeck[0],testGame.gameDeck[1],testGame.gameDeck[2] ];
+			var departed = _.pluck(cards, 'id');
+
+			it ('should remove three cards from the gameDeck', function(){
+					testGame.deal();
+					var matches = _.intersection(_.pluck(testGame.gameDeck, 'id'), departed);
+					expect(matches.length).to.equal(0);
+					expect(testGame.gameDeck.length).to.equal(37);
 			});
+
+			it ('should add those cards to the gameBoard', function(){
+					var matches = _.intersection(_.pluck(testGame.gameBoard, 'id'), departed);
+					expect(matches.length).to.equal(3);
+					expect(testGame.gameBoard.length).to.equal(15);
+			});
+
 		});
 
 	});
