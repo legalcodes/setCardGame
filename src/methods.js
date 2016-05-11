@@ -1,5 +1,4 @@
 gameLogic = {};
-
 //////////////////////////
 ///// ANCILLARY METHODS///
 //////////////////////////
@@ -152,10 +151,22 @@ gameLogic.checkBoard = function(board, setLength){
 
 gameLogic.playGame = function(){
 		// create new Game
+		var game = new gameLogic.Game;
 
-		//is Game over?
-		//if not, are there sets?
+		// is game over?
+		if (game.gameDeck.length === 0){
+				return game.sets;
+		}
+		// any sets on the current board?
+		var setsOnCurrentBoard = game.checkBoard(game.gameBoard);
+		if (setsOnCurrentBoard.length > 0){
+				// move first combo from board and put into gameSets
+				
+				// call checkBoard on new board
+				// if there are any sets
+		}
 			//findSets
+
 		  //checkGameBoard
 		//if not, are there cards left in the deck?
 		  //deal

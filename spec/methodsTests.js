@@ -220,7 +220,8 @@
 		describe('playSet', function() {
 
 			it('should play an entire game of Set, from beginning to end, and return a list of each valid sets you removed from the board.', function(){
-				var result=playSet(3, 5);
+					var result = gameLogic.playGame();
+					expect(Array.isArray(result)).to.equal(true);
 			});
 		});
 
