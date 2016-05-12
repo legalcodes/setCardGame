@@ -1,4 +1,4 @@
-gameLogic = {};
+var gameLogic = {};
 //////////////////////////
 ///// ANCILLARY METHODS///
 //////////////////////////
@@ -50,7 +50,10 @@ gameLogic.Game = function(){
 	this.gameDeck = gameLogic.makeDeck();
 	this.gameBoard = gameLogic.makeBoard(this.gameDeck);
 	this.gameSets = [];
+	this.gameDiscard = [];
 };
+
+// Deals 3 new cards from Deck to Board
 
 gameLogic.Game.prototype.deal = function(){
 	 // remove 3 cards from game deck
@@ -58,6 +61,29 @@ gameLogic.Game.prototype.deal = function(){
 	 // add those 3 cards to game board
 		this.gameBoard.splice(this.gameBoard.length, 0, new3[0], new3[1], new3[2]);
 };
+
+
+// Finds the first set on the board, adds to set list, and discards used cards from the board
+
+gameLogic.Game.prototype.shiftSet = function(){
+		// pick the first set returned from checkBoard
+		var sets = gameLogic.checkBoard(this.gameBoard);
+		var set = sets[0];
+		var board = this.gameBoard;
+		var discard = this.gameDiscard;
+		// pull gameBoard card objects that make up this set
+		_.each(board, function(cardObj, i){
+ 				if (cardObj === undefined){ return; }
+				_.each(set, function(num){
+						if (cardObj.id === num){
+								// remove card from board and add to this.gameDiscard
+								discard.push(board.splice(i, 1)[0]);
+						}
+				});
+		});
+		this.gameSets.push(set);
+};
+
 
 /////////////////////////
 ////REQUIRED METHODS/////
@@ -95,7 +121,7 @@ gameLogic.findSet = function(card1, card2, card3){
 gameLogic.checkBoard = function(board, setLength){
 	var sets = [];
 	// if user provides no value, setLength defaults to three
-	var setLength = (typeof setLength === 'undefined') ? 3 : setLength;
+	setLength = (typeof setLength === 'undefined') ? 3 : setLength;
 	// container for a single 3-card-combination to be tested for set
 	var combo = [];
 	// recursive function to find all combos
@@ -158,10 +184,19 @@ gameLogic.playGame = function(){
 				return game.sets;
 		}
 		// any sets on the current board?
-		var setsOnCurrentBoard = game.checkBoard(game.gameBoard);
+		var setsOnCurrentBoard = gameLogic.checkBoard(game.gameBoard);
 		if (setsOnCurrentBoard.length > 0){
 				// move first combo from board and put into gameSets
-				
+
+/*
+				console.log('Board length: ', game.gameBoard.length);
+				console.log('There is a set!');
+				console.log('Game sets before: ', game.gameSets);
+				game.shiftSet();
+				console.log('Game sets after: ', game.gameSets);
+				console.log('Board length: ', game.gameBoard.length);
+*/
+
 				// call checkBoard on new board
 				// if there are any sets
 		}

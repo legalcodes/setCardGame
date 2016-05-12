@@ -65,8 +65,26 @@
 
 		});
 
-	});
+		describe('shiftSet', function(){
+				var testGame = new gameLogic.Game;
+				var sets = gameLogic.checkBoard(testGame.gameBoard);
+				while(sets.length === 0){
+						testGame = new gameLogic.Game;
+						sets = testGame.checkBoard(testGame.gameBoard);
+				}
+				it ('should move the first set from board to gameSets', function(){
+						var firstSet = sets[0];
+						testGame.shiftSet(firstSet);
+						expect(_.intersection(firstSet, testGame.gameSets[0]).length).to.equal(3);
+				});
+				it ('should remove selected set cards from the board', function(){
+						expect(testGame.gameBoard.length).to.equal(9);
+				});
 
+
+		});
+
+	});
 
 	describe('Requirements', function(){
 
