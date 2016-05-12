@@ -71,16 +71,39 @@ gameLogic.Game.prototype.shiftSet = function(){
 		var set = sets[0];
 		var board = this.gameBoard;
 		var discard = this.gameDiscard;
+		console.log('Target set: ', set);
+
 		// pull gameBoard card objects that make up this set
+
+		// while board length is > 9
+		while (board.length > 9){
+				console.log(board);
+		  // traverse board
+				_.each(board, function(cardObj, i){
+						if (cardObj === undefined){ return; }
+						_.each(set, function(num){
+								// if card id matches set card id
+								if (cardObj.id === num){
+										// remove card from board and add to this.gameDiscard
+										discard.push(board.splice(i, 1)[0]);
+								}
+						});
+				});
+		}
+/*
 		_.each(board, function(cardObj, i){
  				if (cardObj === undefined){ return; }
 				_.each(set, function(num){
 						if (cardObj.id === num){
 								// remove card from board and add to this.gameDiscard
 								discard.push(board.splice(i, 1)[0]);
+								console.log('set card removed');
 						}
 				});
 		});
+ */
+
+		console.log('board length: ', board.length);
 		this.gameSets.push(set);
 };
 

@@ -81,7 +81,6 @@
 						expect(testGame.gameBoard.length).to.equal(9);
 				});
 
-
 		});
 
 	});
