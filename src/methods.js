@@ -4,10 +4,10 @@ var gameLogic = {};
 //////////////////////////
 
 gameLogic.properties = {
-	colors: ['red', 'green', 'purple'],
-	shapes: ['diamond', 'squiggle', 'oval'],
-	shadings: ['solid', 'empty', 'striped'],
-	numbers: [1,2,3]
+		colors: ['red', 'green', 'purple'],
+		shapes: ['diamond', 'squiggle', 'oval'],
+		shadings: ['solid', 'empty', 'striped'],
+		numbers: [1,2,3]
 };
 
 // helper function that returns random element from passed in array
@@ -17,10 +17,10 @@ gameLogic.getRandomElement = function(arr){
 
 // Each card is assigned random properties when created
 gameLogic.Card = function(){
-	this.color = gameLogic.getRandomElement(gameLogic.properties.colors);
-	this.shape = gameLogic.getRandomElement(gameLogic.properties.shapes);
-	this.shading = gameLogic.getRandomElement(gameLogic.properties.shadings);
-	this.number = gameLogic.getRandomElement(gameLogic.properties.numbers);
+		this.color = gameLogic.getRandomElement(gameLogic.properties.colors);
+		this.shape = gameLogic.getRandomElement(gameLogic.properties.shapes);
+		this.shading = gameLogic.getRandomElement(gameLogic.properties.shadings);
+		this.number = gameLogic.getRandomElement(gameLogic.properties.numbers);
 };
 
 // change the size of the deck here
@@ -28,40 +28,50 @@ gameLogic.deckSize = 52;
 
 // generate deck and add numbered id for each card
 gameLogic.makeDeck = function(){
-  var cards = [];
-	for (var i = 0; i < gameLogic.deckSize; i++){
-		var newCard = new gameLogic.Card;
-		newCard.id = i;
-		cards.push(newCard);
-	}
-	return cards;
+		var cards = [];
+		for (var i = 0; i < gameLogic.deckSize; i++){
+			var newCard = new gameLogic.Card;
+			newCard.id = i;
+			cards.push(newCard);
+		}
+		return cards;
 };
 
 gameLogic.makeBoard = function(deck){
-	var board = [];
-	for (var i = 0; i < 12; i++){
-		board.push(deck.shift());
-	}
-	return board;
+		var board = [];
+		for (var i = 0; i < 12; i++){
+			board.push(deck.shift());
+		}
+		return board;
 };
 
 // Game constructor function
 
 gameLogic.Game = function(){
-	this.turnCount = 0;
-	this.gameDeck = gameLogic.makeDeck();
-	this.gameBoard = gameLogic.makeBoard(this.gameDeck);
-	this.gameSets = [];
-	this.gameDiscard = [];
+		this.turnCount = 0;
+		this.gameDeck = gameLogic.makeDeck();
+		this.gameBoard = gameLogic.makeBoard(this.gameDeck);
+		this.gameSets = [];
+		this.gameDiscard = [];
 };
 
 // Deals 3 new cards from Deck to Board
 
 gameLogic.Game.prototype.deal = function(){
-	 // remove 3 cards from game deck
-		var new3 = this.gameDeck.splice(0, 3);
-	 // add those 3 cards to game board
-		this.gameBoard.splice(this.gameBoard.length, 0, new3[0], new3[1], new3[2]);
+		var numCardsRemaining = this.gameDeck.length;
+		// if # of remaining cards is less than 3
+		if (numCardsRemaining < 3){
+				for (var i = 0; i < numCardsRemaining; i++){
+						console.log('Pushing a remaining card...');
+						this.gameBoard.push(this.gameDeck.pop());
+				}
+		}
+		else {
+			// remove 3 cards from game deck
+			var new3 = this.gameDeck.splice(0, 3);
+			// add those 3 cards to game board
+			this.gameBoard.splice(this.gameBoard.length, 0, new3[0], new3[1], new3[2]);
+		}
 };
 
 
@@ -207,12 +217,15 @@ gameLogic.playGame = function(){
 					console.log('Board length before the move: ', game.gameBoard.length);
 					game.shiftSet();
 					console.log('Board length after the move: ', game.gameBoard.length);
-					// replenish deck with 3 new cards
-					console.log('Replenishing game board. deck length: ', game.gameDeck.length);
-					game.deal();
-					console.log('Board replenished. deck length: ', game.gameDeck.length);
-					console.log('Board length: ', game.gameBoard.length);
-					// check new board for sets
+					// if there are cards in deck
+					if (game.gameDeck.length){
+							// replenish deck with 3 new cards
+							console.log('Replenishing game board. deck length: ', game.gameDeck.length);
+							game.deal();
+							console.log('Board replenished. deck length: ', game.gameDeck.length);
+							console.log('Board length: ', game.gameBoard.length);
+							// check new board for sets
+					}
 					setsOnCurrentBoard = gameLogic.checkBoard(game.gameBoard);
 			}
 

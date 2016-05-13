@@ -236,7 +236,7 @@
 		describe('playGame', function() {
 
 			it('should play an entire game of Set, from beginning to end, and return a list of each valid sets you removed from the board.', function(){
-// 					var result = gameLogic.playGame();
+ 					var result = gameLogic.playGame();
 					expect(Array.isArray(result)).to.equal(true);
 			});
 		});
