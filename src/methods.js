@@ -45,6 +45,8 @@ gameLogic.makeBoard = function(deck){
 	return board;
 };
 
+// Game constructor function
+
 gameLogic.Game = function(){
 	this.turnCount = 0;
 	this.gameDeck = gameLogic.makeDeck();
@@ -71,39 +73,24 @@ gameLogic.Game.prototype.shiftSet = function(){
 		var set = sets[0];
 		var board = this.gameBoard;
 		var discard = this.gameDiscard;
-		console.log('Target set: ', set);
 
 		// pull gameBoard card objects that make up this set
 
-		// while board length is > 9
-		while (board.length > 9){
-				console.log(board);
-		  // traverse board
-				_.each(board, function(cardObj, i){
-						if (cardObj === undefined){ return; }
-						_.each(set, function(num){
-								// if card id matches set card id
-								if (cardObj.id === num){
-										// remove card from board and add to this.gameDiscard
-										discard.push(board.splice(i, 1)[0]);
+		// perform the following checks three times
+		for (var i = 0; i < 3; i++){
+				//traverse set
+				for (var j = 0; j < set.length; j++){
+						var setNum = set[j];
+						//traverse board
+						for (var k = 0; k < board.length; k++){
+								var boardCard = board[k];
+								if (boardCard.id === setNum){
+										// splice matching card from board into discard
+										discard.push(board.splice(k, 1));
 								}
-						});
-				});
-		}
-/*
-		_.each(board, function(cardObj, i){
- 				if (cardObj === undefined){ return; }
-				_.each(set, function(num){
-						if (cardObj.id === num){
-								// remove card from board and add to this.gameDiscard
-								discard.push(board.splice(i, 1)[0]);
-								console.log('set card removed');
 						}
-				});
-		});
- */
-
-		console.log('board length: ', board.length);
+				}
+		}
 		this.gameSets.push(set);
 };
 
@@ -139,7 +126,7 @@ gameLogic.findSet = function(card1, card2, card3){
 	return isSet;
 };
 
-// should take a board of cards and either find a set or determine if there are no sets on the table.
+// takes a board of cards and either finds and returns set(s) or determines if there are no sets on the table.
 
 gameLogic.checkBoard = function(board, setLength){
 	var sets = [];
@@ -199,34 +186,52 @@ gameLogic.checkBoard = function(board, setLength){
 };
 
 gameLogic.playGame = function(){
+
 		// create new Game
 		var game = new gameLogic.Game;
 
-		// is game over?
-		if (game.gameDeck.length === 0){
-				return game.sets;
-		}
-		// any sets on the current board?
-		var setsOnCurrentBoard = gameLogic.checkBoard(game.gameBoard);
-		if (setsOnCurrentBoard.length > 0){
-				// move first combo from board and put into gameSets
+		var nextRound = function(game){
+				// any sets on the current board?
+				var setsOnCurrentBoard = gameLogic.checkBoard(game.gameBoard).length;
+				console.log('Number of sets on the current board: ', setsOnCurrentBoard);
+				// if no sets and deck is empty, game is over
+				if (game.gameDeck.length === 0 && setsOnCurrentBoard === 0 ){
+						console.log('GAME IS OVER!!');
+						return game.gameSets;
+				}
 
-/*
-				console.log('Board length: ', game.gameBoard.length);
-				console.log('There is a set!');
-				console.log('Game sets before: ', game.gameSets);
-				game.shiftSet();
-				console.log('Game sets after: ', game.gameSets);
-				console.log('Board length: ', game.gameBoard.length);
-*/
+			// while current board has sets
+			while (setsOnCurrentBoard > 0){
+					// remove first combo from board and add to gameSets
+					console.log('Time to remove a set from the board!');
+					console.log('Board length before the move: ', game.gameBoard.length);
+					game.shiftSet();
+					console.log('Board length after the move: ', game.gameBoard.length);
+					// replenish deck with 3 new cards
+					console.log('Replenishing game board. deck length: ', game.gameDeck.length);
+					game.deal();
+					console.log('Board replenished. deck length: ', game.gameDeck.length);
+					console.log('Board length: ', game.gameBoard.length);
+					// check new board for sets
+					setsOnCurrentBoard = gameLogic.checkBoard(game.gameBoard);
+			}
 
-				// call checkBoard on new board
-				// if there are any sets
-		}
-			//findSets
+			// if current board has no sets
+			// is game over?
+			if (game.gameDeck.length === 0){
+					console.log('GAME HAS CONCLUDED!');
+					return game.gameSets;
+			}
+			//if not, deal new cards
+				console.log('There are no sets on the current board!');
+				console.log('Dealing new cards.');
+				console.log('Deck length before the deal: ', game.gameDeck.length);
+				game.deal();
+				console.log('Deck length after the deal: ', game.gameDeck.length);
+				// recurse
+				return nextRound(game);
+		};
 
-		  //checkGameBoard
-		//if not, are there cards left in the deck?
-		  //deal
-		//if not, return gameSets
+		console.log('Let the games begin!');
+		return nextRound(game);
 };
